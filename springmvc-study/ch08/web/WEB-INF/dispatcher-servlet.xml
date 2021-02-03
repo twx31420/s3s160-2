@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/mvc https://www.springframework.org/schema/mvc/spring-mvc.xsd">
+    <context:component-scan base-package="edu.nf.ch08"/>
+    <mvc:annotation-driven/>
+<!--    springmvc的文件上传有两种方式，一个是基友servlet3.0的上传，另一种
+        是基于commons-update工具来上传，默认是基于servlet3.0的上传方式，
+        使用的是StandardServletMultipartResolver
+        因此不需要配置而外的解析器，只需要在web.xml中启动<multipart-congfig>
+        即可，如果想使用commons-fileupdload，那么就需要配置一个
+        CommonsMultipartResolver的文件上传解析器-->
+<!--    注意：id必须为multipartResolver-->
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+<!--       限制文件上传的的总大小（单位：字节），不配置此属性默认不限大小-->
+        <property name="maxUploadSize" value="104857600"/>
+<!--        设置文件上传的默认编码-->
+        <property name="defaultEncoding" value="utf-8"/>
+    </bean>
+
+    <mvc:default-servlet-handler/>
+
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="prefix" value="/WEB-INF/jsp/"/>
+        <property name="suffix" value=".jsp"/>
+    </bean>
+</beans>

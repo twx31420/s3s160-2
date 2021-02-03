@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="edu.nf.ch06_hw.dao.StudentDao">
+
+    <resultMap id="stu" type="edu.nf.ch06_hw.entity.Student">
+        <id property="stuId" column="stu_id"/>
+        <result property="stuName" column="stu_name"/>
+        <result property="age" column="stu_age"/>
+        <association property="classInfo" resultMap="cla"/>
+    </resultMap>
+
+    <resultMap id="cla" type="edu.nf.ch06_hw.entity.ClassInfo">
+        <id property="cid" column="c_id"/>
+        <result property="cname" column="c_name"/>
+    </resultMap>
+
+    <select id="getList" resultMap="stu">
+        select stu_id,stu_name,stu_age,c_name from student_info stu,class_info cla where
+        stu.c_id=cla.c_id
+    </select>
+
+    <!--<select id="getList" resultMap="stu">
+        select stu_id,stu_name,stu_age,c_name from student_info stu join class_info cla on stu.c_id=cla.c_id
+   </select>-->
+
+    <insert id="addStu" parameterType="edu.nf.ch06_hw.entity.Student">
+        insert into student_info (stu_name,stu_age,c_id) values (#{stuName},#{age},#{classInfo.cid})
+    </insert>
+
+</mapper>

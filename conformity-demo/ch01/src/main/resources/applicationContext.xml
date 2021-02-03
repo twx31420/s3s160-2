@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+<!--    整合数据源连接池（DataSource）,列如当我们想获取一个数据库连接时，
+        可以冲数据库直接获取，也可以从连接池中获取，但不管从数据库还是连接池中获取对用户
+        而言都是透明的，用户只关心数据库的接口，而无需关心底层是如何获取连接，如果在使用
+        连接池的时候，那么当使用完会自动放回到池中。-->
+<!--    这里将Druid连接池交由个spring容器管理,并指定init的方法和destroy的方法-->
+        <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close">
+<!--           DruidDataSource有很多的属性需要指定，这些都是连接池必须的属性设置 -->
+<!--            数据库链接属性-->
+                <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
+                <property name="url" value="jdbc:mysql://localhost:3306/mybatis_study?useSSL=false&amp;useUnicode=true&amp;characterEncoding=utf-8"/>
+                <property name="username" value="root"/>
+                <property name="password" value=""/>
+<!--                设置链接池的相关属性-->
+<!--                最大连接池数量-->
+                <property name="maxActive" value="200"/>
+<!--                初始化是建立物理链接的个数-->
+                <property name="initialSize" value="5"/>
+<!--                最小连接池数量-->
+                <property name="minIdle" value="5"/>
+<!--                获取连接时最大等待时间,单位：毫秒-->
+                <property name="maxWait" value="2000"/>
+<!--                连接保持空闲二不被驱逐的最小时间-->
+                <property name="minEvictableIdleTimeMillis" value="300000"/>
+<!--                销毁线程检测连接的间隔时间，单位：毫秒-->
+                <property name="timeBetweenEvictionRunsMillis" value="60000"/>
+<!--                检测连接是否有效-->
+                <property name="testWhileIdle" value="true"/>
+                <property name="testOnBorrow" value="false"/>
+<!--                归还连接时执行vaildationQuery来检测是否有效-->
+                <property name="testOnReturn" value="false"/>
+<!--                是否缓存PreparedStatements，mysql建议关闭-->
+                <property name="poolPreparedStatements" value="false"/>
+<!--                定义一个伪sql，用于检测连接是否有用-->
+                <property name="validationQuery" value="select 1"/>
+        </bean>
+</beans>

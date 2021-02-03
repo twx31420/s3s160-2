@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>首页</title>
+    <script src="js/jquery-3.5.1.min.js"></script>
+    <script>
+        $(function (){
+            $(":button").on("click",function (){
+                let params=$('#f1').serialize();
+                $.ajax({
+                    url:"add",
+                    type:"post",
+                    data:params,
+                    success:function (result){
+                        if (result.code==200){
+                            alert("添加成功")
+                        }else {
+                            alert(result.message);
+                        }
+                    }
+                })
+            })
+        })
+    </script>
+</head>
+<body>
+<h2>添加用户</h2>
+<form id="f1">
+    Name:<input type="text" name="uname">
+    <input type="button" value="提交">
+</form>
+</body>
+</html>

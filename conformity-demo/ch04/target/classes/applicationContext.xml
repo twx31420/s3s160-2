@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mybatis="http://mybatis.org/schema/mybatis-spring" xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd http://mybatis.org/schema/mybatis-spring http://mybatis.org/schema/mybatis-spring.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
+
+    <!--    启用注解驱动并扫描包，（父容器，扫描除controller以外的其他类）-->
+    <context:component-scan base-package="edu.nf.ch04">
+<!--        排除扫描的包,type属性根据某种类型来进行排除，这里是根据Controller注解的全部排除-->
+        <context:exclude-filter type="annotation" expression="org.springframework.web.bind.annotation.RestController"/>
+    </context:component-scan>
+
+    <!--   1.整合数据源， 配置druid数据源连接池-->
+    <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close">
+        <!--           DruidDataSource有很多的属性需要指定，这些都是连接池必须的属性设置 -->
+        <!--            数据库链接属性-->
+        <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
+        <property name="url" value="jdbc:mysql://localhost:3306/demo?useSSL=false&amp;useUnicode=true&amp;characterEncoding=utf-8"/>
+        <property name="username" value="root"/>
+        <property name="password" value=""/>
+        <!--                设置链接池的相关属性-->
+        <property name="maxActive" value="200"/>
+        <property name="initialSize" value="5"/>
+        <property name="minIdle" value="5"/>
+        <property name="maxWait" value="2000"/>
+        <property name="minEvictableIdleTimeMillis" value="300000"/>
+        <property name="timeBetweenEvictionRunsMillis" value="60000"/>
+        <property name="testWhileIdle" value="true"/>
+        <property name="testOnBorrow" value="false"/>
+        <property name="testOnReturn" value="false"/>
+        <property name="poolPreparedStatements" value="false"/>
+        <property name="validationQuery" value="select 1"/>
+    </bean>
+
+<!--    配置sqlsessionfactorybean-->
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
+        <property name="typeAliasesPackage" value="edu.nf.ch04.entity"/>
+        <property name="mapperLocations" value="classpath:mapper/*.xml"/>
+<!--        分页插件-->
+        <property name="plugins">
+            <bean class="com.github.pagehelper.PageInterceptor">
+                <property name="properties">
+                    <props>
+                        <prop key="helperDialect">mysql</prop>
+                        <prop key="supportMethodsArguments">true</prop>
+                        <prop key="reasonable">true</prop>
+                    </props>
+                </property>
+            </bean>
+        </property>
+    </bean>
+<!--    扫描dao接口-->
+    <mybatis:scan base-package="edu.nf.ch04.dao"/>
+
+<!--    装配事务管理器-->
+    <bean id="txManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+<!--    启动事务注解驱动-->
+    <tx:annotation-driven transaction-manager="txManager"/>
+
+
+
+</beans>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="edu.nf.library.dao.AdminDao">
+
+    <resultMap id="adminMap" type="edu.nf.library.entity.Admin">
+        <id property="adminId" column="admin_id"/>
+        <result property="adminName" column="admin_name"/>
+        <result property="adminPwd" column="admin_pwd"/>
+    </resultMap>
+
+    <select id="login" resultMap="adminMap">
+        select admin_id,admin_name,admin_pwd from admin where admin_id=#{adminId} and admin_name=#{adminName}
+    </select>
+
+</mapper>

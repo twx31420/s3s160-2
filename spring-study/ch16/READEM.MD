@@ -1,0 +1,1 @@
+# 使用功能aspectj配置aop，使用切面（aspect）

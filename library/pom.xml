@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>edu.nf</groupId>
+    <artifactId>library</artifactId>
+    <version>1.0.0</version>
+    <packaging>war</packaging>
+
+
+    <properties>
+        <maven.compiler.source>8</maven.compiler.source>
+        <maven.compiler.target>8</maven.compiler.target>
+        <!-- 设置项目的编码 -->
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <!--设置test控制台中文乱码问题-->
+        <orgLine>-Dfile.encoding=UTF-8</orgLine>
+        <!-- 设置java的版本为1.8-->
+        <java.version>1.8</java.version>
+        <!-- 源码编译的版本为1.8-->
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <!-- 目标字节码的版本为1.8-->
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <!-- 指定编译器版本为1.8-->
+        <maven.compiler.compilerVersion>1.8</maven.compiler.compilerVersion>
+
+    </properties>
+<!--    依赖配置-->
+    <dependencies>
+<!--        spring框架-->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-webmvc</artifactId>
+            <version>5.2.9.RELEASE</version>
+        </dependency>
+<!--        mysql-->
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>5.1.47</version>
+        </dependency>
+<!--        Junit测试-->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.13</version>
+            <scope>test</scope>
+        </dependency>
+<!--        mybatis框架-->
+        <dependency>
+            <groupId>org.mybatis</groupId>
+            <artifactId>mybatis</artifactId>
+            <version>3.5.6</version>
+        </dependency>
+<!--        lombok框架-->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.12</version>
+            <scope>provided</scope>
+        </dependency>
+        <!--        bean验证框架-->
+        <dependency>
+            <groupId>org.hibernate.validator</groupId>
+            <artifactId>hibernate-validator</artifactId>
+            <version>6.1.5.Final</version>
+        </dependency>
+<!--        jackson-->
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>2.12.0</version>
+        </dependency>
+        <!--  druid连接池      -->
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>druid</artifactId>
+            <version>1.2.3</version>
+        </dependency>
+        <!--        mybatis-spring-->
+        <dependency>
+            <groupId>org.mybatis</groupId>
+            <artifactId>mybatis-spring</artifactId>
+            <version>2.0.6</version>
+        </dependency>
+        <!--            spring-jdbc-->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-jdbc</artifactId>
+            <version>5.2.9.RELEASE</version>
+        </dependency>
+        <!--            pagehelper分页插件-->
+        <dependency>
+            <groupId>com.github.pagehelper</groupId>
+            <artifactId>pagehelper</artifactId>
+            <version>5.2.0</version>
+        </dependency>
+        <!--            aspectjweaver事务-->
+        <dependency>
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjweaver</artifactId>
+            <version>1.9.5</version>
+        </dependency>
+        <!--            spring-tx-->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-tx</artifactId>
+            <version>5.2.9.RELEASE</version>
+        </dependency>
+<!--        spring mvc-->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-webmvc</artifactId>
+            <version>5.2.9.RELEASE</version>
+        </dependency>
+<!--        servlet-api-->
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+            <version>4.0.1</version>
+            <scope>provided</scope>
+        </dependency>
+    </dependencies>
+
+
+
+    <!--    war打包的插件-->
+    <build>
+        <plugins>
+            <!-- war插件 -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>2.2</version>
+                <configuration>
+                    <!-- 指定项目的web目录 -->
+                    <warSourceDirectory>web</warSourceDirectory>
+                    <!-- 指定web.xml路径 -->
+                    <webXml>web\WEB-INF\web.xml</webXml>
+                    <!-- 忽略web.xml文件-->
+                    <!--                    <failOnMissingWebXml>false</failOnMissingWebXml>-->
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+
+</project>

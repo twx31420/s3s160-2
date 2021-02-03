@@ -1,0 +1,8 @@
+edu\nf\ch03\config\UserConfig.class
+edu\nf\ch03\dao\UserDao.class
+edu\nf\ch03\factorybean\MyFactoryBean.class
+edu\nf\ch03\service\UserService.class
+edu\nf\ch03\entity\User.class
+edu\nf\ch03\util\MybatisUtils.class
+edu\nf\ch03\controller\UserController.class
+edu\nf\ch03\service\impl\UserServiceImpl.class

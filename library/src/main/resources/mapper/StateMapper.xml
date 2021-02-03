@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="edu.nf.library.dao.StateDao">
+
+    <resultMap id="stateMap" type="edu.nf.library.entity.State">
+        <id property="returnStateId"  column="return_state_id"/>
+        <result property="stateName" column="state_name"/>
+    </resultMap>
+
+    <select id="listState" resultMap="stateMap">
+        select return_state_id,state_name from state
+    </select>
+
+    <insert id="addState" parameterType="edu.nf.library.entity.State">
+        insert into state(return_state_id,state_name) values (#{returnStateId},#{stateName})
+    </insert>
+
+    <update id="updateState" parameterType="edu.nf.library.entity.State">
+        update state set state_name =#{stateName} where return_state_id=#{returnStateId}
+    </update>
+</mapper>

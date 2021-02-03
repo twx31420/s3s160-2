@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>首页</title>
+    <script src="js/jquery-1.11.3.min.js"></script>
+    <script>
+        $(function (){
+            $.ajax({
+                url:"list",
+                type:"get",
+                success:function (result){
+                    $.each(result,function (index,obj){
+                        $("#tab").append("<tr>"+
+                            "<td>"+obj.id+"</td>"+
+                            "<td>"+obj.name+"</td>"+
+                            "<td>"+obj.age+"</td>"+
+                        "</tr>")
+                    })
+                }
+
+            })
+        })
+    </script>
+</head>
+<body>
+<h2>学员信息</h2>
+<table id="tab" border="1px">
+    <tr>
+        <th>编号</th>
+        <th>姓名</th>
+        <th>年龄</th>
+    </tr>
+</table>
+</body>
+</html>

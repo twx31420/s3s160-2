@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>首页</title>
+    <script src="js/jquery-1.11.3.min.js"></script>
+    <script>
+        $(function (){
+            $("#a").on("click",function (){
+                //构建一个js对象
+                let json={'id':1,'name':'stu1','age':20};
+                //转换为json字符串
+                let jsonStr=JSON.stringify(json);
+                alert(jsonStr);
+                $.ajax({
+                    url:"json/data",
+                    type:"post",
+                    contentType:"application/json;charset=utf-8",
+                    data:jsonStr
+                })
+            })
+        })
+    </script>
+</head>
+<body>
+<h2></h2>
+<a id="a" href="javascript:void(0)">提交json数据</a>
+</body>
+</html>

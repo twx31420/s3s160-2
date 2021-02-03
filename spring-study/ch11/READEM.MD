@@ -1,0 +1,1 @@
+# 使用java配置了以及AnnotatianConfigApplicationContext

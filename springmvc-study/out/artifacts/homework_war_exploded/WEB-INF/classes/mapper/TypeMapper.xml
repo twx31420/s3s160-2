@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="edu.nf.homework.dao.TypeDao">
+
+    <resultMap id="typeMap" type="edu.nf.homework.entity.Type">
+        <id property="id" column="id"/>
+        <result property="tname" column="type_name"/>
+    </resultMap>
+
+    <select id="getTypes" resultMap="typeMap">
+        select id,type_name from type_info
+    </select>
+
+    <insert id="save" parameterType="type">
+        insert into type_info(type_name) values (#{tname})
+    </insert>
+
+</mapper>

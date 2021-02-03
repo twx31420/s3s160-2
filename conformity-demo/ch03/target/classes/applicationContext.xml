@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mybatis="http://mybatis.org/schema/mybatis-spring" xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd http://mybatis.org/schema/mybatis-spring http://mybatis.org/schema/mybatis-spring.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd http://www.springframework.org/schema/aop https://www.springframework.org/schema/aop/spring-aop.xsd">
+
+<!--    启用注解驱动并扫描包-->
+    <context:component-scan base-package="edu.nf.ch03"/>
+
+<!--   1.整合数据源， 配置druid数据源连接池-->
+    <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close">
+        <!--           DruidDataSource有很多的属性需要指定，这些都是连接池必须的属性设置 -->
+        <!--            数据库链接属性-->
+        <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
+        <property name="url" value="jdbc:mysql://localhost:3306/demo?useSSL=false&amp;useUnicode=true&amp;characterEncoding=utf-8"/>
+        <property name="username" value="root"/>
+        <property name="password" value=""/>
+        <!--                设置链接池的相关属性-->
+        <!--                最大连接池数量-->
+        <property name="maxActive" value="200"/>
+        <!--                初始化是建立物理链接的个数-->
+        <property name="initialSize" value="5"/>
+        <!--                最小连接池数量-->
+        <property name="minIdle" value="5"/>
+        <!--                获取连接时最大等待时间,单位：毫秒-->
+        <property name="maxWait" value="2000"/>
+        <!--                连接保持空闲二不被驱逐的最小时间-->
+        <property name="minEvictableIdleTimeMillis" value="300000"/>
+        <!--                销毁线程检测连接的间隔时间，单位：毫秒-->
+        <property name="timeBetweenEvictionRunsMillis" value="60000"/>
+        <!--                检测连接是否有效-->
+        <property name="testWhileIdle" value="true"/>
+        <property name="testOnBorrow" value="false"/>
+        <!--                归还连接时执行vaildationQuery来检测是否有效-->
+        <property name="testOnReturn" value="false"/>
+        <!--                是否缓存PreparedStatements，mysql建议关闭-->
+        <property name="poolPreparedStatements" value="false"/>
+        <!--                定义一个伪sql，用于检测连接是否有用-->
+        <property name="validationQuery" value="select 1"/>
+    </bean>
+
+<!--    2,整合mybatis，将sqlsessionfactory纳入spring容器中管理-->
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+<!--        注入Druid数据源,ref引用上面配置的数据源的id-->
+        <property name="dataSource" ref="dataSource"/>
+<!--        给实体包下的类定义默认的别名-->
+        <property name="typeAliasesPackage" value="edu.nf.ch03.entity"/>
+<!--        指定mapper映射配置文件的目录-->
+        <property name="mapperLocations" value="classpath:mapper/*.xml"/>
+<!--        配置分页插件-->
+        <property name="plugins">
+<!--            配置分页拦截器-->
+            <bean class="com.github.pagehelper.PageInterceptor">
+<!--               设置分页属性-->
+                <property name="properties">
+                    <props>
+<!--                        数据库方言-->
+                        <prop key="helperDialect">mysql</prop>
+<!--                        启用分页参数注解支持-->
+                        <prop key="supportMethodsArguments">true</prop>
+<!--                        分页合理化-->
+                        <prop key="reasonable">true</prop>
+                    </props>
+                </property>
+            </bean>
+        </property>
+    </bean>
+<!--    指定扫描的dao接口的包，这样会利用动态代理在运行时创建所有dao接口到的实现类，
+        并自动注册到spring容器中-->
+    <mybatis:scan base-package="edu.nf.ch03.dao"/>
+
+<!--    配置声明式事务-->
+    <!--装配JDBC事务管理器-->
+    <bean id="txManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+<!--       注入数据源 -->
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+<!--    配置事务通知，并引用上面的事务管理器-->
+    <tx:advice id="txAdvice" transaction-manager="txManager">
+<!--        在通知中配置事务属性的传播级别-->
+        <tx:attributes>
+<!--            method 指定哪些方法需要启动事务，*表示所有方法，
+                也可以模糊匹配或者精确匹配.
+                propagation属性用于设置事务的传播级别，默认的事务传播级别就是REQUIRED
+                read-only表示当前是一个只读的事务
+                rollback-for属性表示遇到什么类型的异常就回滚事务，默认是runtimeexception-->
+            <tx:method name="add*"/>
+            <tx:method name="update*"/>
+            <tx:method name="del*"/>
+            <tx:method name="transfer"/>
+            <tx:method name="get*" read-only="true" propagation="SUPPORTS"/>
+            <tx:method name="list*" read-only="true" propagation="SUPPORTS"/>
+        </tx:attributes>
+    </tx:advice>
+
+    <!--  配置事务的切面，（也就是事务的通知器）-->
+    <aop:config>
+<!--       advice-ref引用上面的事务通知,通过切入点指定表达式匹配业务类方法 -->
+        <aop:advisor advice-ref="txAdvice" pointcut="execution(* edu.nf.ch03.service.impl.*.*(..))"/>
+    </aop:config>
+
+
+
+</beans>

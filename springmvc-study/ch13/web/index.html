@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>首页</title>
+    <script src="js/jquery-3.5.1.min.js"></script>
+    <script>
+        $(function (){
+            $(":button").on("click",function (){
+                $.ajax({
+                    url:"user",
+                    type:"get",
+                    success:function (result){
+                        alert(result);
+                    }
+                })
+            })
+        })
+    </script>
+</head>
+<body>
+<input type="button" value="提交">
+</body>
+</html>

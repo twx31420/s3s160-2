@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="ch09" />
+        <module name="ch07" />
+        <module name="ch18" />
+        <module name="ch08" />
+        <module name="ch19" />
+        <module name="ch05" />
+        <module name="ch16" />
+        <module name="ch06" />
+        <module name="ch17" />
+        <module name="homework" />
+        <module name="ch03" />
+        <module name="ch14" />
+        <module name="ch04" />
+        <module name="ch15" />
+        <module name="ch01" />
+        <module name="ch12" />
+        <module name="ch02" />
+        <module name="ch13" />
+        <module name="ch10" />
+        <module name="ch21" />
+        <module name="ch11" />
+        <module name="ch20" />
+        <module name="spring" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="ch09.1" target="1.8" />
+      <module name="chspring" target="1.8" />
+      <module name="myspring" target="1.8" />
+      <module name="untitled" target="1.8" />
+    </bytecodeTargetLevel>
+  </component>
+</project>

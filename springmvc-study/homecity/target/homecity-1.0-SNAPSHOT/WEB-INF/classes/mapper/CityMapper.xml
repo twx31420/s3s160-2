@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="edu.nf.homecity.dao.CityDao">
+
+    <resultMap id="cityMap" type="edu.nf.homecity.entity.City">
+        <id property="id" column="city_id"/>
+        <result property="name" column="city_name"/>
+        <result property="code" column="city_code"/>
+        <result property="province" column="province"/>
+    </resultMap>
+
+    <select id="getList" resultMap="cityMap">
+        select city_id,city_name,city_code,province from city_info
+    </select>
+
+</mapper>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="edu.nf.library.dao.ReadDao">
+
+    <resultMap id="readMap" type="edu.nf.library.entity.Read">
+        <id property="id" column="id"/>
+        <result property="rid" column="r_id"/>
+        <result property="rpwd" column="r_pwd"/>
+        <result property="rname" column="r_name"/>
+        <result property="rsex" column="r_sex"/>
+        <result property="rcard" column="r_card"/>
+        <result property="rtel" column="r_tel"/>
+        <result property="address" column="address"/>
+    </resultMap>
+
+
+    <select id="listRead" resultMap="readMap">
+        select id,r_id,r_pwd,r_name,r_sex,r_card,r_tel,address from read_info
+    </select>
+
+    <insert id="addRead" parameterType="edu.nf.library.entity.Read">
+        insert into read_info(r_id,r_pwd,r_name,r_sex,r_card,r_tel,address) values (#{rid},#{rpwd},#{rname},#{rsex},#{rcard},#{rtel},#{address} )
+    </insert>
+
+    <update id="updateRead" parameterType="edu.nf.library.entity.Read">
+        update read_info set r_id=#{rid},r_pwd=#{rpwd},r_name=#{rname},r_sex=#{rsex},r_card=#{rcard},r_tel=#{rtel},address=#{address}
+        where id=#{id}
+    </update>
+
+
+
+</mapper>

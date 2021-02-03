@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.nf.homework.dao.StuDao">
+
+    <resultMap id="stuMap" type="org.nf.homework.entity.Student">
+        <id property="sid" column="stu_id"/>
+        <result property="stuName" column="stu_name"/>
+        <result property="age" column="stu_age"/>
+<!--        多对一关联班级-->
+        <association property="cla" resultMap="classMap"/>
+    </resultMap>
+<!--    -->
+    <resultMap id="classMap" type="org.nf.homework.entity.ClassInfo">
+        <id property="cid" column="c_id"/>
+        <result property="cname" column="c_name"/>
+    </resultMap>
+
+<!--    查询-->
+    <select id="listStu" resultMap="stuMap">
+        select s.stu_id,s.stu_name,s.stu_age,c.c_name
+        from student_info s join class_info c on s.c_id=c.c_id order by s.stu_id desc;
+    </select>
+
+<!--    添加-->
+    <insert id="addStu" parameterType="student">
+        insert into student_info (stu_name,stu_age,c_id) values (#{stuName},#{age},#{cla.cid})
+    </insert>
+
+    <delete id="delStu" parameterType="collection">
+        delete from student_info
+        <where>
+            stu_id in
+                <foreach collection="array" item="id" open="(" close=")" separator=",">
+                    #{id}
+                </foreach>
+        </where>
+    </delete>
+</mapper>

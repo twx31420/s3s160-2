@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>首页</title>
+    <script src="js/jquery-3.5.1.min.js"></script>
+    <script>
+        $(function (){
+            $.ajax({
+                url:"user/1",
+                type:"get",
+                success:function (result){
+                    //设置img的src，将图片文件名
+                    $("#icon").prop('src','viewIcon?fileName='+result.data.image)
+                    //设置img大小
+                    $("#icon").css({'width':'100px','height':'100px'})
+                    //加载用户信息
+                    $("#info").append(
+                      '姓名：'+ result.data.name+"<br/>"+
+                        '性别：'+result.data.sex+"<br/>"
+                    )
+                }
+            })
+        })
+    </script>
+</head>
+<body>
+<h2>个人中心</h2>
+头像：<img id="icon"><br/>
+<div id="info">
+
+</div>
+</body>
+</html>

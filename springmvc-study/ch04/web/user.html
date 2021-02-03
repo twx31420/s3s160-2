@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>首页</title>
+</head>
+<body>
+<h2>添加用户</h2>
+<form method="post" action="adduser3">
+    Name:<input type="text" name="userName" value="user1"><br/>
+    Age:<input type="text" name="age" value="21"><br/>
+    Birth:<input type="date" name="birth" value="1990-03-20">
+    Addr1:<input type="text" name="addresses[0].addr" value="珠海"><br/>
+    Addr2:<input type="test" name="addresses[1].addr" value="广东"><br/>
+    <input type="submit" name="submit">
+</form>
+
+
+<h2>批量删除</h2>
+<form method="post" action="delete">
+    <input type="checkbox" name="ids" value="1"/><br>
+    <input type="checkbox" name="ids" value="2"/><br>
+    <input type="checkbox" name="ids" value="3"/><br>
+    <input type="checkbox" name="ids" value="4"/><br>
+    <input type="checkbox" name="ids" value="5"/><br>
+    <input type="submit" name="submit">
+</form>
+<h2>rest风格</h2>
+<a href="user/1001">查询用户</a>
+</body>
+</html>

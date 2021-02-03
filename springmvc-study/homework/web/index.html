@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>首页</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <script src="js/jquery-3.5.1.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script>
+        $(function () {
+            items();
+            sel_type();
+            item_add();
+            type_add();
+        })
+        function btn_item_updinfo(){
+            $("#btn_item_update").on("click",function (){
+                let formdata=$("#fupdate").serialize();
+                $.ajax({
+                    url: "item/update",
+                    type: "post",
+                    data:formdata,
+                    success: function (result) {
+                        if(result.code==200){
+                            alert("修改成功！");
+                            location.reload();
+                        }else if (result.code==401){
+                            location.href="login.html"
+                        }else {
+                            alert(result.message);
+                        }
+                    }
+                })
+            })
+        }
+        function item_update(){
+            $('.update').on('click',function(){
+                //将adduser.html加载到id为loadmodal的div中
+                $('#loadmodal').load('update.html',function(){
+                    //选中模式对话框并显示出来
+                    inputdata();
+                    btn_item_updinfo()
+                    $('#updatemodel').modal('show');
+                });
+            });
+        }
+
+        function inputdata(){
+            $("#proid").val($(this).closest("tr").find("td").first().text());
+        }
+        function items(){
+            $.ajax({
+                url: "item/list",
+                type: "get",
+                success: function (result) {
+                    $.each(result.data, function (index, value) {
+                        if (result.code==401){
+                            location.href="login.html"
+                            return false;
+                        }
+                        $('#tab').append(
+                            "<tr>" +
+                            "<td>" + value.id + "</td>" +
+                            "<td>" + value.name + "</td>" +
+                            "<td>" + value.description + "</td>" +
+                            "<td>" + value.price + "</td>" +
+                            "<td>" + value.type.tname + "</td>" +
+                            "<td>" +"<a href='javascript:void(0)' class='del'>删除</a> "+
+                            "&nbsp;&nbsp;<a href='javascript:void(0)' class='update'>修改</a> "+ "</td>" +
+                            "</tr>"
+                        )
+                    })
+                    item_update();
+                    $(".del").on("click",function (){
+                        $.ajax({
+                            url: "item/del/"+$(this).closest("tr").find("td").first().text(),
+                            type: "get",
+                            success: function (result) {
+                                if(result.code==200){
+                                    alert("删除成功！");
+                                    location.reload();
+                                }else if (result.code==401){
+                                    location.href="login.html"
+                                }else {
+                                    alert(result.message);
+                                }
+                            }
+                        })
+                    })
+                }
+            })
+        }
+        function sel_type(){
+            $.ajax({
+                url: "type/list",
+                type: "get",
+                success: function (result) {
+                    $.each(result.data, function (index, value) {
+                        $('#sel_type').append(
+                           "<option value='"+value.id+"'>"+value.tname+"</option>"
+                        )
+                    })
+                }
+            })
+        }
+        function item_add(){
+            $("#btn_item_add").on("click",function (){
+                let formdata=$("#f1").serialize();
+                $.ajax({
+                    url: "item/add",
+                    type: "post",
+                    data:formdata,
+                    success: function (result) {
+                        if(result.code==200){
+                            alert("添加成功！");
+                            location.reload();
+                        }else if (result.code==401){
+                            location.href="login.html"
+                        }else {
+                            alert(result.message);
+                        }
+                    }
+                })
+            })
+        }
+        function type_add(){
+            $("#btn_type_add").on("click",function (){
+                let formdata=$("#f2").serialize();
+                $.ajax({
+                    url: "type/add",
+                    type: "post",
+                    data:formdata,
+                    success: function (result) {
+                        if(result.code==200){
+                            alert("添加成功！");
+                            location.reload();
+                        }else if (result.code==401){
+                            location.href="login.html"
+                        }else {
+                            alert(result.message);
+                        }
+                    }
+                })
+            })
+        }
+    </script>
+</head>
+<body>
+<h2>添加商品</h2>
+<form id="f1">
+    商品名称：<input type="text" name="name">&nbsp;商品价格：<input type="number" name="price"><br/>
+    商品描述：<input type="text" multiple="multiple" name="description"><br/>
+    商品类型：<select id="sel_type" name="type.id"></select><input id="btn_item_add" type="button" value="添加商品">
+</form>
+<h2>添加类型</h2>
+<form id="f2">
+    商品类型：<input type="text" name="type.name"><input id="btn_type_add" type="button" value="添加商品类型">
+</form>
+
+<h2>商品列表</h2>
+<table id="tab" class="table table-bordered table-striped table-hover">
+    <tr>
+        <th>商品ID</th>
+        <th>名称</th>
+        <th>描述</th>
+        <th>价格</th>
+        <th>类型</th>
+        <th>操作</th>
+    </tr>
+</table>
+<!--加载模态框的div-->
+<div id="loadmodal"></div>
+
+</div>
+
+</body>
+</html>

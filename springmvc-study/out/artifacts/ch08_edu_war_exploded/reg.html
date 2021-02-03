@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>首页</title>
+    <script src="js/jquery-3.5.1.min.js"></script>
+    <script>
+        $(function (){
+            $("#myfile").change(function (){
+                let fileReader=new FileReader();
+                //读取选择的图片
+                fileReader.readAsDataURL($(this)[0].files[0]);
+                //异步加载到指定的元素中去
+                fileReader.onload=function (event){
+                    $("#icon").prop("src",event.target.result);
+                    //设置图片大小
+                    $("#icon").css({'width':'100px','height':'100px'})
+                }
+            })
+            //绑定上传按钮
+            $(":button").on("click",function (){
+                let formData=new FormData($('#f1')[0]);
+                $.ajax({
+                    url:"regist",
+                    type:"post",
+                    data:formData,
+                    processData: false,
+                    contentType:false,
+                    success:function (result){
+                        if(result.code==200){
+                            alert("添加成功");
+                        }else {
+                            alert(result.message);
+                        }
+                    }
+                })
+            })
+        })
+    </script>
+</head>
+<body>
+<form id="f1" enctype="multipart/form-data">
+    头像：<img id="icon"><br/>
+    <input type="file" id="myfile" name="file"/><br/>
+    账号：<input type="text" name="user"><br/>
+    密码：<input type="text" name="pwd"><br/>
+    用户名：<input type="text" name="name"><br/>
+    性别：<input type="text" name="sex"><br/>
+    <input type="button" value="提交"><br/>
+</form>
+<h2>个人中心</h2>
+<a href="index.html">前往</a>
+</body>
+</html>

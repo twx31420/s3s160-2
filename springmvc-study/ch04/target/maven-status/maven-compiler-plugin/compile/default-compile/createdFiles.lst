@@ -1,0 +1,8 @@
+edu\nf\ch04\controller\UserController.class
+edu\nf\ch04\converter\MyConverter.class
+edu\nf\ch04\homework\CityFormatter.class
+edu\nf\ch04\entity\Address.class
+edu\nf\ch04\entity\User.class
+edu\nf\ch04\homework\CityController.class
+edu\nf\ch04\converter\MyFormatter.class
+edu\nf\ch04\entity\City.class

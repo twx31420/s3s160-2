@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/mvc https://www.springframework.org/schema/mvc/spring-mvc.xsd">
+<!--    启用注解并扫描-->
+    <context:component-scan base-package="edu.nf.ch01" />
+<!--    启动mvc注解处理器,
+        这个注解驱动主要注册了requestMappingHandlerMapping(请求映射处理器
+        ，核心作用是查找哪些控制器类可以处理请求，并返回一个处理器给前端控制器)
+        和一个requestMappingHendlerAdapter（请求处理适配器，）
+        同时还启用了相关的注解@requestMapping、@requestBody、@responseBody、
+        @NumberFormatannotation、@DateTimeFormat、@vaild等注解功能以及
+        数据绑定支持-->
+    <mvc:annotation-driven/>
+<!--    配置视图解析器,spring提供了很多种视图解析器，不同的视图解析器构成不同的视图对象，
+        其中一个叫做InternalResourceViewResolver（内部资源视图解析器），
+        他的主要作用就是解析内部的jsp文件-->
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+<!--        这个视图解析器需要注入两个属性-->
+<!--        指定内部的前缀-->
+        <property name="prefix" value="/WEB-INF/jsp/"/>
+<!--       指定内部资源的后缀-->
+        <property name="suffix" value=".jsp"/>
+<!--        指定视图对象-->
+
+    </bean>
+
+</beans>

@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>org.example</groupId>
+    <artifactId>springmvc-study</artifactId>
+    <packaging>pom</packaging>
+    <version>1.0-SNAPSHOT</version>
+    <modules>
+        <module>ch01</module>
+        <module>ch02</module>
+        <module>ch03</module>
+        <module>ch04</module>
+        <module>ch05</module>
+        <module>ch06</module>
+        <module>ch06-hw</module>
+        <module>ch07</module>
+        <module>ch08</module>
+        <module>ch08-hw</module>
+        <module>ch08-edu</module>
+        <module>ch09</module>
+        <module>ch09-hw</module>
+        <module>ch10</module>
+        <module>ch11</module>
+        <module>ch12</module>
+        <module>homework</module>
+        <module>ch13</module>
+        <module>homecity</module>
+    </modules>
+    <properties>
+        <!-- 设置项目的编码 -->
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <!--设置test控制台中文乱码问题-->
+        <orgLine>-Dfile.encoding=UTF-8</orgLine>
+        <!-- 设置java的版本为1.8-->
+        <java.version>1.8</java.version>
+        <!-- 源码编译的版本为1.8-->
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <!-- 目标字节码的版本为1.8-->
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <!-- 指定编译器版本为1.8-->
+        <maven.compiler.compilerVersion>1.8</maven.compiler.compilerVersion>
+
+    </properties>
+
+    <dependencies>
+<!--        druid连接池-->
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>druid</artifactId>
+            <version>1.2.3</version>
+        </dependency>
+
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-webmvc</artifactId>
+            <version>5.2.9.RELEASE</version>
+        </dependency>
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+            <version>4.0.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.mybatis</groupId>
+            <artifactId>mybatis</artifactId>
+            <version>3.5.6</version>
+        </dependency>
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>5.1.47</version>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.12</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.12</version>
+            <scope>provided</scope>
+        </dependency>
+<!--        转换器json-->
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>2.12.0</version>
+        </dependency>
+<!--        bean验证框架-->
+        <dependency>
+            <groupId>org.hibernate.validator</groupId>
+            <artifactId>hibernate-validator</artifactId>
+            <version>6.1.5.Final</version>
+        </dependency>
+<!--        文件上传-->
+        <dependency>
+            <groupId>commons-fileupload</groupId>
+            <artifactId>commons-fileupload</artifactId>
+            <version>1.3.3</version>
+        </dependency>
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+            <version>2.8.6</version>
+        </dependency>
+
+    </dependencies>
+
+
+
+    <!--    war打包的插件-->
+    <build>
+        <plugins>
+            <!-- war插件 -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>2.2</version>
+                <configuration>
+                    <!-- 指定项目的web目录 -->
+                    <warSourceDirectory>web</warSourceDirectory>
+                    <!-- 指定web.xml路径 -->
+                    <webXml>web\WEB-INF\web.xml</webXml>
+                    <!-- 忽略web.xml文件-->
+                    <!--                    <failOnMissingWebXml>false</failOnMissingWebXml>-->
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+
+</project>

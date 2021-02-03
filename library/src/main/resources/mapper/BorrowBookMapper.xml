@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="edu.nf.library.dao.BorrowBookDao">
+
+    <resultMap id="borrowMap" type="edu.nf.library.entity.BorrowBook">
+        <id property="borrowId" column="borrow_id"/>
+        <result property="number" column="number"/>
+        <result property="borrowDate" column="borrow_date"/>
+        <result property="limitDate" column="limit_date"/>
+        <association property="book" resultMap="bookMap"/>
+        <association property="read" resultMap=""/>
+    </resultMap>
+
+    <resultMap id="bookMap" type="edu.nf.library.entity.Book">
+        <id property="bookId" column="book_id"/>
+        <result property="bookName" column="book_name"/>
+        <result property="press" column="press"/>
+        <result property="author" column="author"/>
+        <result property="introduction" column="introduction"/>
+        <result property="price" column="price"/>
+        <result property="inventory" column="inventory"/>
+        <result property="location" column="location"/>
+        <association property="bookType" resultMap="typeMap"/>
+    </resultMap>
+    <resultMap id="typeMap" type="edu.nf.library.entity.BookType">
+        <id property="typeId" column="type_id"/>
+        <result property="typeName" column="type_name"/>
+    </resultMap>
+
+    <select id="listBorrowBook" resultMap="borrowMap">
+        select * from
+    </select>
+
+    <insert id="addBorrowBook" parameterType="edu.nf.library.entity.BorrowBook">
+
+    </insert>
+
+    <update id="updateBorrowBook" parameterType="edu.nf.library.entity.BorrowBook">
+
+    </update>
+
+</mapper>

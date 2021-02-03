@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mybatis="http://mybatis.org/schema/mybatis-spring" xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd http://mybatis.org/schema/mybatis-spring http://mybatis.org/schema/mybatis-spring.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
+
+<!--    启用注解驱动并扫描包-->
+    <context:component-scan base-package="edu.nf.ch02"/>
+
+<!--   1.整合数据源， 配置druid数据源连接池-->
+    <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close">
+        <!--           DruidDataSource有很多的属性需要指定，这些都是连接池必须的属性设置 -->
+        <!--            数据库链接属性-->
+        <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
+        <property name="url" value="jdbc:mysql://localhost:3306/demo?useSSL=false&amp;useUnicode=true&amp;characterEncoding=utf-8"/>
+        <property name="username" value="root"/>
+        <property name="password" value=""/>
+        <!--                设置链接池的相关属性-->
+        <!--                最大连接池数量-->
+        <property name="maxActive" value="200"/>
+        <!--                初始化是建立物理链接的个数-->
+        <property name="initialSize" value="5"/>
+        <!--                最小连接池数量-->
+        <property name="minIdle" value="5"/>
+        <!--                获取连接时最大等待时间,单位：毫秒-->
+        <property name="maxWait" value="2000"/>
+        <!--                连接保持空闲二不被驱逐的最小时间-->
+        <property name="minEvictableIdleTimeMillis" value="300000"/>
+        <!--                销毁线程检测连接的间隔时间，单位：毫秒-->
+        <property name="timeBetweenEvictionRunsMillis" value="60000"/>
+        <!--                检测连接是否有效-->
+        <property name="testWhileIdle" value="true"/>
+        <property name="testOnBorrow" value="false"/>
+        <!--                归还连接时执行vaildationQuery来检测是否有效-->
+        <property name="testOnReturn" value="false"/>
+        <!--                是否缓存PreparedStatements，mysql建议关闭-->
+        <property name="poolPreparedStatements" value="false"/>
+        <!--                定义一个伪sql，用于检测连接是否有用-->
+        <property name="validationQuery" value="select 1"/>
+    </bean>
+
+<!--    2,整合mybatis，将sqlsessionfactory纳入spring容器中管理-->
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+<!--        注入Druid数据源,ref引用上面配置的数据源的id-->
+        <property name="dataSource" ref="dataSource"/>
+<!--        给实体包下的类定义默认的别名-->
+        <property name="typeAliasesPackage" value="edu.nf.ch02.entity"/>
+<!--        指定mapper映射配置文件的目录-->
+        <property name="mapperLocations" value="classpath:mapper/*.xml"/>
+        <!--<property name="setting">
+            <props>
+                <prop key="logImpl">STDOUT_LOGGING</prop>
+            </props>
+        </property>-->
+<!--        配置分页插件-->
+        <property name="plugins">
+<!--            配置分页拦截器-->
+            <bean class="com.github.pagehelper.PageInterceptor">
+<!--               设置分页属性-->
+                <property name="properties">
+                    <props>
+<!--                        数据库方言-->
+                        <prop key="helperDialect">mysql</prop>
+<!--                        启用分页参数注解支持-->
+                        <prop key="supportMethodsArguments">true</prop>
+<!--                        分页合理化-->
+                        <prop key="reasonable">true</prop>
+                    </props>
+                </property>
+            </bean>
+        </property>
+    </bean>
+<!--    指定扫描的dao接口的包，这样会利用动态代理在运行时创建所有dao接口到的实现类，
+        并自动注册到spring容器中-->
+    <mybatis:scan base-package="edu.nf.ch02.dao"/>
+
+<!--    装配dataSource事物管理器-->
+    <bean id="txManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+<!--        注入一个数据源dataSource-->
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+<!--    启动注解事物处理器-->
+    <tx:annotation-driven transaction-manager="txManager"/>
+
+
+
+
+</beans>

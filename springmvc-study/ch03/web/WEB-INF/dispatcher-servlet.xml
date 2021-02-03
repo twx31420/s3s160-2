@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/mvc https://www.springframework.org/schema/mvc/spring-mvc.xsd">
+<!--   启动注解处理器并扫描-->
+    <context:component-scan base-package="edu.nf.ch03"/>
+<!--    <context:annotation-config/>-->
+<!--    启动mvc注解驱动-->
+<!--    <mvc:annotation-driven/>-->
+<!--    当DispatcherServlet配置的url为/时，访问静态资源也会经过
+        前端控制器，但是前端控制器会去匹配有没有对应的controller可以处理，
+        结果是找不到，因此会返回404。这样导致无法访问静态页面，
+        有两种方法解决这个问题，1、使用容器提供的默认servlet来处理静态资源
+        2、将静态资源交由给springmvc自己处理-->
+<!--    方式一：使用web容器提供的默认servlet处理-->
+<!--    <mvc:default-servlet-handler/>-->
+
+<!--    方式二：由springmvc自己处理,mapping用于映射静态资源的url
+        location用于指定静态资源的本地相对路径-->
+    <mvc:resources mapping="/page/**" location="/static/,/public/"/>
+<!--    配置视图解析器-->
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="prefix" value="/WEB-INF/jsp/"/>
+        <property name="suffix" value=".jsp"/>
+    </bean>
+</beans>
